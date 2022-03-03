@@ -35,16 +35,6 @@ h2 {
     animation: breathing 2s ease-in-out 0s infinite;
 }
 
-@keyframes breathing {
-    0%,
-    100% {
-        font-size: 56px;
-    }
-    50% {
-        font-size: 72px;
-    }
-}
-
 h1,
 h3 {
     margin-bottom: 0;
@@ -98,4 +88,14 @@ p {
     font-size: 30px;
     margin: 20px;
     padding: 10px;
+}
+
+@keyframes breathing {
+    0%,
+    100% {
+        font-size: 56px;
+    }
+    50% {
+        font-size: 72px;
+    }
 }
