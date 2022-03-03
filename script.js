@@ -5,6 +5,7 @@ const msgEl = document.getElementById('msg');
 const mic = document.getElementById('mic');
 const endScreenContainer = document.getElementById('end-screen-container');
 
+// Native API - Need to change config or enable for FireFox/IE support
 window.SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -36,32 +37,34 @@ const writeMessage = (msg) => {
     `;
 };
 
+// Compare user's parsed speech to the random number...
 const checkNumber = (msg) => {
     const num = +msg;
 
     // Check if entry is a valid num
     if (Number.isNaN(num)) {
-        msgEl.innerHTML = `<div>That's not a number!</div>`;
+        msgEl.innerHTML += `<div>That's not a number!</div>`;
         return;
     }
 
     // Check if in range (1-100)
     if (num > 100 || num < 1) {
-        msgEl.innerHTML = '<div>Number must be from 1 to 100</div>';
+        msgEl.innerHTML += '<div>Number must be from 1 to 100</div>';
     }
 
     //Check if correct num
     if (num === randomNum) {
         recognition.stop();
+        //Display vicotry message, with play again button
         gameContainer.style.visibility = 'hidden';
         endScreenContainer.innerHTML = `
         <h2>🎯 Nailed it!<br><br>The number was <br>${randomNum} </h2>
         <button id="play-again" class="play-again">Play Again</button>
         `;
     } else if (num > randomNum) {
-        msgEl.innerHTML = '<div>GO LOWER</div>';
+        msgEl.innerHTML += '<div>GO LOWER</div>';
     } else if (num < randomNum) {
-        msgEl.innerHTML = '<div>GO HIGHER</div>';
+        msgEl.innerHTML += '<div>GO HIGHER</div>';
     }
 };
 
@@ -73,14 +76,17 @@ recognition.start();
 // Speak result
 recognition.addEventListener('result', onSpeak);
 
+// Starts picking up audio
 recognition.addEventListener('soundstart', () => {
     mic.classList.add('live');
 });
 
+// end of audio segment
 recognition.addEventListener('soundend', () => {
     mic.classList.remove('live');
 });
 
+// Restart listening with mic once ended. Loops on page
 recognition.addEventListener('end', () => recognition.start());
 
 document.body.addEventListener('click', (e) => {
