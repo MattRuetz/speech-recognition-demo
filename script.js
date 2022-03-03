@@ -3,6 +3,7 @@ const tintContainer = document.getElementById('bg-tint');
 const gameContainer = document.getElementById('game-container');
 const msgEl = document.getElementById('msg');
 const mic = document.getElementById('mic');
+const endScreenContainer = document.getElementById('end-screen-container');
 
 window.SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -53,10 +54,9 @@ const checkNumber = (msg) => {
     if (num === randomNum) {
         recognition.stop();
         gameContainer.style.visibility = 'hidden';
-        tintContainer.innerHTML = `
-        <h2>🎯 Nailed it!</h2><br><br>
-        <h2> The number was <br>${randomNum} </h2>
-        <button class="play-again>Play Again</button>"
+        endScreenContainer.innerHTML = `
+        <h2>🎯 Nailed it!<br><br>The number was <br>${randomNum} </h2>
+        <button id="play-again" class="play-again">Play Again</button>
         `;
     } else if (num > randomNum) {
         msgEl.innerHTML = '<div>GO LOWER</div>';
@@ -82,3 +82,10 @@ recognition.addEventListener('soundend', () => {
 });
 
 recognition.addEventListener('end', () => recognition.start());
+
+document.body.addEventListener('click', (e) => {
+    console.log(e.target);
+    if (e.target.id === 'play-again') {
+        window.location.reload();
+    }
+});

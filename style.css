@@ -28,6 +28,10 @@ body {
 
 h2 {
     font-size: 120px;
+    position: absolute;
+    top: 200px;
+    left: 0;
+    right: 0;
     animation: breathing 2s ease-in-out 0s infinite;
 }
 
@@ -71,8 +75,13 @@ p {
 }
 
 .play-again {
+    cursor: pointer;
     padding: 8px 15px;
+    position: absolute;
+    top: 70%;
+    width: 80px;
     border: none;
+    transform: translateX(-50%);
     background: var(--button-color);
     border-radius: 5px;
     margin-top: 10px;
