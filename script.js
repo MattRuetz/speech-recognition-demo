@@ -1,5 +1,6 @@
 // SpeechRecognition API not working in FireFox! Use chrome!
-
+const tintContainer = document.getElementById('bg-tint');
+const gameContainer = document.getElementById('game-container');
 const msgEl = document.getElementById('msg');
 const mic = document.getElementById('mic');
 
@@ -15,6 +16,7 @@ const getRandomNumber = () => {
 
 const randomNum = getRandomNumber();
 
+console.log(randomNum);
 // Capture user speech
 const onSpeak = (e) => {
     const msg = e.results[0][0].transcript;
@@ -49,18 +51,24 @@ const checkNumber = (msg) => {
 
     //Check if correct num
     if (num === randomNum) {
-        document.body.innerHTML = `
+        recognition.stop();
+        gameContainer.style.visibility = 'hidden';
+        tintContainer.innerHTML = `
         <h2>🎯 Nailed it!</h2><br><br>
-        <h3> The number was ${randomNum} </h3>
+        <h2> The number was <br>${randomNum} </h2>
         <button class="play-again>Play Again</button>"
         `;
     } else if (num > randomNum) {
         msgEl.innerHTML = '<div>GO LOWER</div>';
+    } else if (num < randomNum) {
+        msgEl.innerHTML = '<div>GO HIGHER</div>';
     }
 };
 
 // Start listening for speech
 recognition.start();
+
+//  -------- Event Listeners --------
 
 // Speak result
 recognition.addEventListener('result', onSpeak);
@@ -72,3 +80,5 @@ recognition.addEventListener('soundstart', () => {
 recognition.addEventListener('soundend', () => {
     mic.classList.remove('live');
 });
+
+recognition.addEventListener('end', () => recognition.start());
